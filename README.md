@@ -1,6 +1,8 @@
 Github Gazing
 =====================
 
+Get your star and fork notifications as they happen.
+
 **Why?**
 
 Github does not send notifications for repositories being starred or forked. This project aims to poll the Github API on a regular basis. The intermediate results will be stored and then used for notifications such as over email or HTTP posts.
