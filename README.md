@@ -14,16 +14,18 @@ HTTPS connections are made to the Github API to query event such as repositories
 * Get your access token from [Github tokens](https://github.com/settings/tokens)
 * Add your token to *key.json*
 * Set your username in *config.json*
+* Install redis or run redis-server. Alter *config.json* if the instance is not on localhost.
 * Type in `node app.js`
 
-**Todo:**
+**TODO:**
 
 Right now data is stored in redis and printed on the terminal.
-
+```
 [ ] Compare results of two test runs
 [ ] Notifier: Email notifications through Azure e-mail
 [ ] Notifier: Alternative HTTP post
 [ ] Cron template.
+```
 
 **Installation and requirements**
 
