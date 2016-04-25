@@ -1,1 +1,1 @@
-{"redis_host": "localhost", "redis_port": 6379, "username": "alexellis" }
+{"redis_host": "localhost", "redis_port": 6379, "username": "alexellis", "datastore": "store.json" }

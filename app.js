@@ -1,5 +1,6 @@
 "use strict"
-var redis = require('redis');
+//var redis = require('redis');
+var fs = require('fs');
 var moment = require('moment');
 var Compare = require('./compare');
 
@@ -9,7 +10,7 @@ const Github = require('./github.js');
 const key = require('./key.json');
 const config = require('./config.json');
 
-var userRepo = new UserRepo(config, redis);
+var userRepo = new UserRepo(config, fs);
 var github = new Github(config, key);
 
 userRepo.getStored().then((stored) => {
@@ -20,7 +21,7 @@ userRepo.getStored().then((stored) => {
     });
 
     console.log("");
-    notifications.forks.forEach((fork)=>{
+    notifications.forks.forEach((fork)=> {
       console.log( moment(fork.created_at).fromNow() + "\t" + fork.user_name + " fork'd " + fork.repo_name + " ");
     });
 
@@ -39,7 +40,6 @@ userRepo.getStored().then((stored) => {
     userRepo.store(notifications).then(()=> {
       console.log("Updates stored");
 
-    }).catch(e => {console.error(e);});
-  }).catch(e => {console.error(e)});
-}).catch(e => {console.error(e)});
-
+    }).catch(e => {console.error(e, e.stack);});
+  }).catch(e => {console.error(e, e.stack)});
+}).catch(e => {console.error(e, e.stack)});

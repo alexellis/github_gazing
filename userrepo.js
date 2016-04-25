@@ -1,41 +1,37 @@
 "use strict"
 
 class UserRepo {
-  constructor(config, redis) {
+  constructor(config, fs) {
     this.config = config;
-    this.redis = redis;
+    this.fs = fs;
   }
 
   getStored() {
-    return new Promise( (resolve, reject) => {
-      const client = this.redis.createClient({host: this.config.redis_host, port: this.config.redis_port });
-      client.on('connect', function() {
-        client.get("activities", function(err, set) {
+    return new Promise((resolve, reject) => {
+      this.fs.exists(this.config.datastore, (stat) => {
+        if(!stat) {
+          var activities = {stars:[], forks: []};
+          return resolve(activities);
+        }
+
+        this.fs.readFile(this.config.datastore, "utf8", (err, data) => {
           if(err) {
             return reject(err);
           }
-          client.quit();
-          return resolve(JSON.parse(set));
+          resolve(JSON.parse(data));
         });
       });
-      client.on('error', (err)=> { client.quit(); reject(err);});
     });
   }
 
   store(activities) {
     return new Promise( (resolve, reject) => {
-      const client = this.redis.createClient({host: this.config.redis_host, port: this.config.redis_port });
-
-      client.on('connect', function() {
-        client.set("activities", JSON.stringify(activities), function(err) {
-          if(err) {
-            return reject(err);
-          }
-          client.quit();
-          return resolve();
-        });
+      this.fs.writeFile(this.config.datastore, JSON.stringify(activities) , "utf8", function(err) {
+        if(err) {
+          return reject(err);
+        }
+        resolve();
       });
-      client.on('error', (err)=> { client.quit(); reject(err);});
     });
   }
 }

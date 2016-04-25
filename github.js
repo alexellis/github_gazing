@@ -4,8 +4,8 @@ var request = require('request');
 
 class Github {
   constructor(config, key) {
-    this.config=config;
-    this.key=key;
+    this.config = config;
+    this.key = key;
   }
 
   _formatActivities(watchEvents) {
