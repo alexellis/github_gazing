@@ -2,9 +2,10 @@
   "name": "github_gazing",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node app.js",
+    "test": "mocha *test.js"
   },
   "keywords": [],
   "author": "",
@@ -12,7 +13,6 @@
   "dependencies": {
     "chai": "^3.5.0",
     "moment": "^2.13.0",
-    "redis": "^2.6.0-1",
     "request": "^2.72.0"
   }
 }
