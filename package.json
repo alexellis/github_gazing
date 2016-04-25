@@ -10,6 +10,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "chai": "^3.5.0",
     "moment": "^2.13.0",
     "redis": "^2.6.0-1",
     "request": "^2.72.0"
