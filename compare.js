@@ -8,13 +8,18 @@ class Compare {
   difference (before, after) {
     // id / repo_name / user_name / created_at;
     var added = [];
-    for(var i = 0 ; i < after.length; i++) {
-      if(before.filter(f => {return f.id == after[i].id} ).length>0) {
-        added.push(after[i]);
+
+    after.forEach(function(afterItem) {
+      var matching = before.filter((b) => { return b.id == afterItem.id; });
+
+      if(!matching.length) {
+        added.push(afterItem);
       }
-    }
+    });
+
     return added;
   }
 }
 
 module.exports = Compare;
+
