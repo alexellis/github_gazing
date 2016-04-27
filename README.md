@@ -17,12 +17,17 @@ HTTPS connections are made to the Github API to query event such as repositories
 * Install redis or run redis-server. Alter *config.json* if the instance is not on localhost.
 * Type in `node app.js`
 
+For email notifications enable send_grid in *config.json* and enter your SendGrid key.
+
 **TODO:**
 
 Right now data is stored in redis and printed on the terminal.
 ```
-[ ] Compare results of two test runs
-[ ] Notifier: Email notifications through Azure e-mail
+[x] Compare results since last run
+    - done
+[x] Notifier: Email notifications through Azure e-mail
+    - completed through use of SendGrid
+[ ] HTML formatted emails
 [ ] Notifier: Alternative HTTP post
 [ ] Cron template.
 ```

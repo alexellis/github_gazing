@@ -1,1 +1,4 @@
-{"access_token": "EXAMPLE_ACCESS_TOKEN"}
+{
+  "access_token": "EXAMPLE_ACCESS_TOKEN",
+  "sendgrid_key": "sendgrid_key"
+}
