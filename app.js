@@ -2,30 +2,18 @@
 //var redis = require('redis');
 var fs = require('fs');
 var moment = require('moment');
-var Compare = require('./compare');
+var Compare = require('./lib/compare.js');
 
-const UserRepo = require('./userrepo.js');
-const Github = require('./github.js');
+const UserRepo = require('./lib/userrepo.js');
+const Github = require('./lib/github.js');
+const EmailPublisher = require("./notify/emailpublisher.js");
+const TerminalPublisher = require("./lib/terminalpublisher.js");
 
 const key = require('./key.json');
 const config = require('./config.json');
-const EmailPublisher = require("./emailpublisher.js");
 
 var userRepo = new UserRepo(config, fs);
 var github = new Github(config, key);
-
-class TerminalPublisher {
-  publish(stars, forks) {
-    stars.forEach((star)=> {
-      console.log( moment(star.created_at).fromNow() + "\t" + star.user_name + " starred " + star.repo_name + " ");
-    });
-
-    console.log("");
-    forks.forEach((fork)=> {
-      console.log( moment(fork.created_at).fromNow() + "\t" + fork.user_name + " fork'd " + fork.repo_name + " ");
-    });
-  }
-}
 
 userRepo.getStored().then((stored) => {
   github.fetchActivity().then((notifications) => {

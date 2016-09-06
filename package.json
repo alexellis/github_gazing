@@ -5,13 +5,14 @@
   "main": "app.js",
   "scripts": {
     "start": "node app.js",
-    "test": "mocha *test.js"
+    "test": "./node_modules/.bin/mocha test/*test.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "chai": "^3.5.0",
+    "mocha": "^3.0.2",
     "moment": "^2.13.0",
     "request": "^2.72.0",
     "sendgrid": "^2.0.0"

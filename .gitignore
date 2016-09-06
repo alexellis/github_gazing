@@ -4,3 +4,5 @@ config.json
 *.txt
 dump.rdb
 store.json
+start.sh
+
