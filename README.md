@@ -7,6 +7,14 @@ Get your star and fork notifications as they happen.
 
 Github does not send notifications for repositories being starred or forked. This project aims to poll the Github API on a regular basis. The intermediate results will be stored and then used for notifications such as over email or HTTP posts.
 
+**Can I run this on my Raspberry Pi?**
+
+Absolutely. When you build the image use the `Dockerfile.arm` file. 
+
+```
+docker build -t notifier . -f Dockerfile.arm
+```
+
 **Contributing**
 
 Help is welcome, but my time is limited so if you have a suggestion, enhancement or bug fix then please raise an issue to begin a conversation.
@@ -35,7 +43,8 @@ Right now data is stored in redis and printed on the terminal.
 [x] Notifier: Email notifications through Azure e-mail
     - completed through use of SendGrid
 [ ] HTML formatted emails
-[ ] Notifier: Alternative HTTP post
+[ ] Notifier: Post to HTTP endpoint
+[ ] Notifier: Telegram
 [ ] Cron template.
 ```
 

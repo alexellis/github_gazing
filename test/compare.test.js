@@ -1,4 +1,4 @@
-var Compare = require('./compare');
+var Compare = require('../lib/compare');
 var expect = require('chai').expect;
 
 describe("compares activity streams", function() {
