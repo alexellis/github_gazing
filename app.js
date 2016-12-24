@@ -30,26 +30,39 @@ userRepo.getStored().then((stored) => {
         if(difference.length || forkDifference.length) {
 
           // Todo: use-callback chaining
-
+          let promises = [];
           if(config.send_emails) {
-            var publisher = new EmailPublisher(config, key);
-            publisher.publish(packages, function(err, done) {
-              if(err) {
-                console.error(err);
-              }
+            let promise = new Promise((resolve, reject)=> {
+              var publisher = new EmailPublisher(config, key);
+              publisher.publish(packages, function(err, done) {
+                if(err) {
+                  console.error(err);
+                }
+                resolve();
+              });
             });
+            promises.push(promise);
           }
 
           if(config.publish_webhooks) {
-            console.log("publish_webhooks")
-            var publisher = new WebhookPublisher(config);
-            publisher.publish(packages, function(err, done) {
-              if(err) {
-                console.error(err);
-              }
+            let promise = new Promise((resolve, reject)=> {
+              console.log("publish_webhooks")
+              var publisher = new WebhookPublisher(config);
+              publisher.publish(packages, function(err, done) {
+                if(err) {
+                  console.error(err);
+                }
+                resolve();
+              });
             });
+            promises.push(promise);
           }
-
+          
+          Promise.all(promises).then(() => {
+            console.log("All publishers done.")
+          }).catch((err) => {
+            console.error("Some publishers failed: " + err);
+          });
         }
       });
     } else {
