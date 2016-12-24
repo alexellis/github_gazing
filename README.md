@@ -5,22 +5,7 @@ Get your star and fork notifications as they happen.
 
 **Why?**
 
-Github does not send notifications for repositories being starred or forked. This project aims to poll the Github API on a regular basis. The intermediate results will be stored and then used for notifications such as over email or HTTP posts.
-
-**Can I run this on my Raspberry Pi?**
-
-Absolutely. When you build the image use the `Dockerfile.arm` file. 
-
-```
-docker build -t notifier . -f Dockerfile.arm
-```
-
-**Contributing**
-
-Help is welcome, but my time is limited so if you have a suggestion, enhancement or bug fix then please raise an issue to begin a conversation.
-
-Once an issue is open we can can talk about the proposed change in the open. Once we've figured out what needs to be done then you can go ahead and raise a PR and it's very likely to get merged.
-
+Github does not send notifications for repositories being starred or forked unless you add separate webhooks for every one you own. This project aims to poll the Github API on a regular basis. The intermediate results will be stored and then used for notifications such as emails, Telegram or HTTP(s) webhooks.
 
 **How it works:**
 
@@ -33,6 +18,14 @@ HTTPS connections are made to the Github API to query event such as repositories
 * Type in `node app.js`
 
 For email notifications enable send_grid in *config.json* and enter your SendGrid key.
+
+**Can I run this on my Raspberry Pi?**
+
+Absolutely. When you build the image use the `Dockerfile.arm` file. 
+
+```
+docker build -t notifier . -f Dockerfile.arm
+```
 
 **TODO:**
 
@@ -87,3 +80,9 @@ an hour ago	jbaker10 starred alexellis/HandsOnDocker
 
 a day ago	chrisneave fork'd alexellis/xservedbyfinder
 ```
+
+**Contributing**
+
+Help is welcome, but my time is limited so if you have a suggestion, enhancement or bug fix then please raise an issue to begin a conversation.
+
+Once an issue is open we can can talk about the proposed change in the open. Once we've figured out what needs to be done then you can go ahead and raise a PR and it's very likely to get merged.
