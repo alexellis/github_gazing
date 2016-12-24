@@ -1,8 +1,16 @@
-{"redis_host": "localhost", "redis_port": 6379,
+{
+  "redis_host": "localhost",
+  "redis_port": 6379,
   "username": "username_here",
   "datastore": "./store.json",
   "email_from": "no.reply@yourdomain.io",
   "email_name": "Your Name",
   "email_to": "youremail@gmail.com",
-  "send_emails": false
+  "send_emails": false,
+  "publish_webhooks" : false,
+  "webhooks" : [
+  {
+      "id": "requestbin",
+      "url": "http://requestb.in/17dyuoe1"
+  }]
 }

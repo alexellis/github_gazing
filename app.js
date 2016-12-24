@@ -8,6 +8,7 @@ const UserRepo = require('./lib/userrepo.js');
 const Github = require('./lib/github.js');
 const EmailPublisher = require("./notify/emailpublisher.js");
 const TerminalPublisher = require("./lib/terminalpublisher.js");
+const WebhookPublisher = require("./lib/webhookpublisher.js");
 
 const key = require('./key.json');
 const config = require('./config.json');
@@ -22,24 +23,40 @@ userRepo.getStored().then((stored) => {
       var comparer = new Compare();
       var difference = comparer.difference(stored.stars, notifications.stars);
       var forkDifference = comparer.difference(stored.forks, notifications.forks);
+      var packages =  {stars: difference, forks: forkDifference};
 
       var terminalPublisher = new TerminalPublisher();
-      terminalPublisher.publish(difference, forkDifference);
+      terminalPublisher.publish(packages, () =>{
+        if(difference.length || forkDifference.length) {
 
-      if(difference.length || forkDifference.length) {
-        var packages =  {stars: difference, forks: forkDifference};
-        if(config.send_emails) {
-          var publisher = new EmailPublisher(config, key);
-          publisher.publish(packages, function(err, done) {
-            if(err) {
-              console.error(err);
-            }
-          });
+          // Todo: use-callback chaining
+
+          if(config.send_emails) {
+            var publisher = new EmailPublisher(config, key);
+            publisher.publish(packages, function(err, done) {
+              if(err) {
+                console.error(err);
+              }
+            });
+          }
+
+          if(config.publish_webhooks) {
+            console.log("publish_webhooks")
+            var publisher = new WebhookPublisher(config);
+            publisher.publish(packages, function(err, done) {
+              if(err) {
+                console.error(err);
+              }
+            });
+          }
+
         }
-      }
+      });
     } else {
       var terminalPublisher = new TerminalPublisher();
-      terminalPublisher.publish(notifications.stars, notifications.forks);
+      terminalPublisher.publish(notifications, () => {
+        console.log("Done, nothing stored yet.")
+      });
     }
 
     userRepo.store(notifications).then(()=> {
