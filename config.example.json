@@ -1,6 +1,4 @@
 {
-  "redis_host": "localhost",
-  "redis_port": 6379,
   "username": "username_here",
   "datastore": "./store.json",
   "email_from": "no.reply@yourdomain.io",
