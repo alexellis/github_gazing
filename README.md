@@ -14,7 +14,6 @@ HTTPS connections are made to the Github API to query event such as repositories
 * Get your access token from [Github tokens](https://github.com/settings/tokens)
 * Add your token to *key.json*
 * Set your username in *config.json*
-* Install redis or run redis-server. Alter *config.json* if the instance is not on localhost.
 * Type in `node app.js`
 
 For email notifications enable send_grid in *config.json* and enter your SendGrid key.
