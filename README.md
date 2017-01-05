@@ -36,7 +36,7 @@ Right now data is stored in redis and printed on the terminal.
 [x] Notifier: Email notifications through Azure e-mail
     - completed through use of SendGrid
 [ ] HTML formatted emails
-[ ] Notifier: Post to HTTP endpoint
+[*] Notifier: Post to HTTP endpoint
 [ ] Notifier: Telegram
 [ ] Cron template.
 ```
