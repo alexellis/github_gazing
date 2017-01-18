@@ -25,45 +25,9 @@ userRepo.getStored().then((stored) => {
       var forkDifference = comparer.difference(stored.forks, notifications.forks);
       var packages =  {stars: difference, forks: forkDifference};
 
-      var terminalPublisher = new TerminalPublisher();
-      terminalPublisher.publish(packages, () =>{
-        if(difference.length || forkDifference.length) {
-
-          // Todo: use-callback chaining
-          let promises = [];
-          if(config.send_emails) {
-            let promise = new Promise((resolve, reject)=> {
-              var publisher = new EmailPublisher(config, key);
-              publisher.publish(packages, function(err, done) {
-                if(err) {
-                  console.error(err);
-                }
-                resolve();
-              });
-            });
-            promises.push(promise);
-          }
-
-          if(config.publish_webhooks) {
-            let promise = new Promise((resolve, reject)=> {
-              console.log("publish_webhooks")
-              var publisher = new WebhookPublisher(config);
-              publisher.publish(packages, function(err, done) {
-                if(err) {
-                  console.error(err);
-                }
-                resolve();
-              });
-            });
-            promises.push(promise);
-          }
-          
-          Promise.all(promises).then(() => {
-            console.log("All publishers done.")
-          }).catch((err) => {
-            console.error("Some publishers failed: " + err);
-          });
-        }
+      var userNames = getUsernames(difference, forkDifference);
+      github.fetchUsers(userNames).then((userProfiles) => {
+        publish(difference, forkDifference, packages , userProfiles);
       });
     } else {
       var terminalPublisher = new TerminalPublisher();
@@ -78,3 +42,62 @@ userRepo.getStored().then((stored) => {
     }).catch(e => {console.error(e, e.stack);});
   }).catch(e => {console.error(e, e.stack)});
 }).catch(e => {console.error(e, e.stack)});
+
+
+let getUsernames = (stars, forks) => {
+  var names = [];
+  stars.forEach((s)=> {
+    if(names.indexOf(s.user_name) == -1) {
+      names.push(s.user_name);
+    }
+  });
+  forks.forEach((f)=> {
+    if(names.indexOf(f.user_name) == -1) {
+      names.push(f.user_name);
+    }
+  });
+  return names;
+};
+
+let publish = (difference, forkDifference, packages, userProfiles) => {
+  var terminalPublisher = new TerminalPublisher();
+  terminalPublisher.publish(packages, userProfiles, () => {
+    if(difference.length || forkDifference.length) {
+
+      // Todo: use-callback chaining
+      let promises = [];
+      if(config.send_emails) {
+        let promise = new Promise((resolve, reject)=> {
+          var publisher = new EmailPublisher(config, key);
+          publisher.publish(packages, userProfiles, function(err, done) {
+            if(err) {
+              console.error(err);
+            }
+            resolve();
+          });
+        });
+        promises.push(promise);
+      }
+
+      if(config.publish_webhooks) {
+        let promise = new Promise((resolve, reject)=> {
+          console.log("publish_webhooks")
+          var publisher = new WebhookPublisher(config);
+          publisher.publish(packages, function(err, done) {
+            if(err) {
+              console.error(err);
+            }
+            resolve();
+          });
+        });
+        promises.push(promise);
+      }
+      
+      Promise.all(promises).then(() => {
+        console.log("All publishers done.")
+      }).catch((err) => {
+        console.error("Some publishers failed: " + err);
+      });
+    }
+  });
+};
