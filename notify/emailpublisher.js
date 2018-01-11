@@ -38,12 +38,17 @@ module.exports = class EmailPublisher {
         buffer += "\n";
         notifications.stars.forEach((star)=> {
           if(star.user_name == p.login) {
-            buffer += "   * Starred " + star.repo_name + " " + moment(star.created_at).fromNow() + "\n";
+            var repo = star.repo_name;
+            var link = "<a href=\"https://github.com/" + repo + "/\">"+ repo+"</a>";
+            buffer += "   * Starred " + link + " " + moment(star.created_at).fromNow() + "\n";
           }
         });
         notifications.forks.forEach((fork)=> {
           if(fork.user_name == p.login) {
-            buffer += "   * Forked " + fork.repo_name + " " + moment(fork.created_at).fromNow() + "\n";
+            var repo = fork.repo_name;
+            var link = "<a href=\"https://github.com/" + repo + "/\">"+ repo+"</a>";
+
+            buffer += "   * Forked " + link + " " + moment(fork.created_at).fromNow() + "\n";
           }
         });
         buffer += "\n";
